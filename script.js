@@ -59,6 +59,12 @@ function fitMessage() {
 // Call the loadMessages function when the HTML content is fully loaded
 document.addEventListener('DOMContentLoaded', loadMessages);
 
+// The heading font arrives after first paint, and it has different metrics
+// from the fallback, so the fit has to be recalculated once it lands.
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(fitMessage);
+}
+
 // Re-fit after rotation, a resized window, or a projector switching resolution
 let refitFrame;
 window.addEventListener('resize', () => {
